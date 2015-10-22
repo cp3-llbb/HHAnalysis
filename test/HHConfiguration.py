@@ -49,7 +49,7 @@ process = Framework.create(runOnData, eras.Run2_25ns, globalTag, cms.PSet(
         )
     ), 
     
-    redoJEC=True,
+    redoJEC=False,
     process_name=processName
 
     )
