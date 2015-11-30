@@ -59,7 +59,6 @@ void MuMuCategory::register_cuts(CutManager& manager) {
     manager.new_cut("fire_trigger_Mu17_Mu8", "HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_v*");
     manager.new_cut("fire_trigger_Mu17_TkMu8", "HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_DZ_v*");
     manager.new_cut("fire_trigger_IsoMu27", "HLT_IsoMu27_v*");
-    manager.new_cut("fire_trigger_Ele32_eta2p1_WPTight_Gsf", "HLT_Ele32_eta2p1_WPTight_Gsf_v*");
 };
 
 void MuMuCategory::evaluate_cuts_post_analyzers(CutManager& manager, const ProducersManager& producers, const AnalyzersManager& analyzers) const {
@@ -106,6 +105,7 @@ void ElElCategory::register_cuts(CutManager& manager) {
     manager.new_cut("ll_mass_lowerZcut", "mll > 85");
     manager.new_cut("has_two_bJets", "nBJet >= 2");
     manager.new_cut("fire_trigger_Ele17_Ele12", "HLT_Ele17_Ele12_CaloIdL_TrackIdL_IsoVL_DZ*");
+    manager.new_cut("fire_trigger_Ele32_eta2p1_WPTight_Gsf", "HLT_Ele32_eta2p1_WPTight_Gsf_v*");
 };
 
 void ElElCategory::evaluate_cuts_post_analyzers(CutManager& manager, const ProducersManager& producers, const AnalyzersManager& analyzers) const {
