@@ -10,7 +10,7 @@ runOnData = False
 if runOnData :
     globalTag = '74X_dataRun2_v2'
     processName = 'RECO'
-else : 
+else :
     globalTag = '74X_mcRun2_asymptotic_v2'
     processName = None
 
@@ -30,10 +30,10 @@ process = Framework.create(runOnData, eras.Run2_25ns, globalTag, cms.PSet(
             electronIsoCut_EB_Tight = cms.untracked.double(0.0354),
             electronIsoCut_EE_Tight = cms.untracked.double(0.0646),
             leadingElectronPtCut = cms.untracked.double(20),
-            subleadingElectronPtCut = cms.untracked.double(15),
+            subleadingElectronPtCut = cms.untracked.double(5),
             electronEtaCut = cms.untracked.double(2.5),
-            muonLooseIsoCut = cms.untracked.double(.25), # https://twiki.cern.ch/twiki/bin/view/CMS/TopMUO 
-            muonTightIsoCut = cms.untracked.double(.15), # https://twiki.cern.ch/twiki/bin/view/CMS/TopMUO 
+            muonLooseIsoCut = cms.untracked.double(.25), # https://twiki.cern.ch/twiki/bin/view/CMS/TopMUO
+            muonTightIsoCut = cms.untracked.double(.15), # https://twiki.cern.ch/twiki/bin/view/CMS/TopMUO
             leadingMuonPtCut = cms.untracked.double(20),
             subleadingMuonPtCut = cms.untracked.double(10),
             muonEtaCut = cms.untracked.double(2.4),
@@ -50,8 +50,8 @@ process = Framework.create(runOnData, eras.Run2_25ns, globalTag, cms.PSet(
             hltDPtCut = cms.untracked.double(0.5)  # cut will be DPt/Pt < hltDPtCut
             ),
         )
-    ), 
-    
+    ),
+
     redoJEC=False,
     process_name=processName
 
@@ -69,11 +69,11 @@ process.framework.producers.jets.parameters.cut = cms.untracked.string("pt > 20"
 
 Framework.schedule(process, ['hh_analyzer'])
 
-if runOnData : 
+if runOnData :
     process.source.fileNames = cms.untracked.vstring(
         '/store/data/Run2015D/DoubleMuon/MINIAOD/PromptReco-v3/000/256/675/00000/4AA27F21-8B5F-E511-9AED-02163E014472.root'
         )
-else : 
+else :
     process.source.fileNames = cms.untracked.vstring(
         #'/store/mc/RunIISpring15MiniAODv2/TTJets_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8/MINIAODSIM/74X_mcRun2_asymptotic_v2-v1/00000/0014DC94-DC5C-E511-82FB-7845C4FC39F5.root'
         'file:////storage/data/cms/store/user/brfranco/testFiles/TTTo2L2Nu_13TeV-powheg_RunIISpring15MiniAODv2_74X_mcRun2_asymptotic_v2-v1.root'
