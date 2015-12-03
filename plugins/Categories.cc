@@ -77,6 +77,7 @@ void MuMuCategory::evaluate_cuts_post_analyzers(CutManager& manager, const Produ
     {
         if (path.find("HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_v") != std::string::npos) manager.pass_cut("fire_trigger_Mu17_Mu8");
         if (path.find("HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_DZ_v") != std::string::npos) manager.pass_cut("fire_trigger_Mu17_TkMu8");
+        if (path.find("HLT_IsoMu27_v") != std::string::npos) manager.pass_cut("fire_trigger_IsoMu27");
     }
 }
 
@@ -123,6 +124,7 @@ void ElElCategory::evaluate_cuts_post_analyzers(CutManager& manager, const Produ
     for (const std::string& path: hlt.paths) 
     {
         if (path.find("HLT_Ele17_Ele12_CaloIdL_TrackIdL_IsoVL_DZ_v") != std::string::npos) manager.pass_cut("fire_trigger_Ele17_Ele12");
+        if (path.find("HLT_Ele32_eta2p1_WPTight_Gsf_v") != std::string::npos) manager.pass_cut("fire_trigger_Ele32_eta2p1_WPTight_Gsf");
     }
 }
 
