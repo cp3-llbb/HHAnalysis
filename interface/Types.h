@@ -2,7 +2,7 @@
 
 #include <vector>
 #include <Math/Vector4D.h>
-#include <cp3_llbb/HHAnalysis/interface/Enums.h>
+#include <cp3_llbb/HHAnalysis/interface/Indices.h>
 
 typedef ROOT::Math::LorentzVector<ROOT::Math::PtEtaPhiE4D<float>> LorentzVector;
 

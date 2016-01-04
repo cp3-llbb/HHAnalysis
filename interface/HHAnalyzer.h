@@ -7,6 +7,8 @@
 
 #include <Math/VectorUtil.h>
 
+using namespace HHAnalysis;
+
 class HHAnalyzer: public Framework::Analyzer {
     public:
         HHAnalyzer(const std::string& name, const ROOT::TreeGroup& tree_, const edm::ParameterSet& config):
