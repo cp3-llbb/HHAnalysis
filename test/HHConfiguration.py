@@ -5,7 +5,7 @@ from Configuration.StandardSequences.Eras import eras
 from cp3_llbb.Framework import Framework
 from cp3_llbb.Framework import METProducer
 
-runOnData = False
+runOnData = True
 
 if runOnData :
     globalTag = '74X_dataRun2_v2'
@@ -71,7 +71,9 @@ Framework.schedule(process, ['hh_analyzer'])
 
 if runOnData :
     process.source.fileNames = cms.untracked.vstring(
-        '/store/data/Run2015D/DoubleMuon/MINIAOD/PromptReco-v3/000/256/675/00000/4AA27F21-8B5F-E511-9AED-02163E014472.root'
+            "/store/data/Run2015D/SingleMuon/MINIAOD/05Oct2015-v1/30000/B49EF18E-9E6F-E511-A0BD-0025905B85A2.root"
+#            "/store/data/Run2015D/MuonEG/MINIAOD/PromptReco-v4/000/258/159/00000/64914E6C-F26B-E511-B0C8-02163E0142D1.root"
+#        '/store/data/Run2015D/DoubleMuon/MINIAOD/PromptReco-v3/000/256/675/00000/4AA27F21-8B5F-E511-9AED-02163E014472.root'
         )
 else :
     process.source.fileNames = cms.untracked.vstring(
@@ -79,4 +81,4 @@ else :
         'file:////storage/data/cms/store/user/brfranco/testFiles/TTTo2L2Nu_13TeV-powheg_RunIISpring15MiniAODv2_74X_mcRun2_asymptotic_v2-v1.root'
         )
 
-process.maxEvents = cms.untracked.PSet(input = cms.untracked.int32(1000))
+process.maxEvents = cms.untracked.PSet(input = cms.untracked.int32(-1))
