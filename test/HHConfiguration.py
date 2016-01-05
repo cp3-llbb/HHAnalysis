@@ -5,12 +5,12 @@ from Configuration.StandardSequences.Eras import eras
 from cp3_llbb.Framework import Framework
 from cp3_llbb.Framework import METProducer
 
-runOnData = False
+runOnData = True
 
 if runOnData :
     globalTag = '74X_dataRun2_v2'
     processName = 'RECO'
-else : 
+else :
     globalTag = '74X_mcRun2_asymptotic_v2'
     processName = None
 
@@ -30,12 +30,12 @@ process = Framework.create(runOnData, eras.Run2_25ns, globalTag, cms.PSet(
             electronIsoCut_EB_Tight = cms.untracked.double(0.0354),
             electronIsoCut_EE_Tight = cms.untracked.double(0.0646),
             leadingElectronPtCut = cms.untracked.double(20),
-            subleadingElectronPtCut = cms.untracked.double(15),
+            subleadingElectronPtCut = cms.untracked.double(5),
             electronEtaCut = cms.untracked.double(2.5),
-            muonLooseIsoCut = cms.untracked.double(.25), # https://twiki.cern.ch/twiki/bin/view/CMS/TopMUO 
-            muonTightIsoCut = cms.untracked.double(.15), # https://twiki.cern.ch/twiki/bin/view/CMS/TopMUO 
+            muonLooseIsoCut = cms.untracked.double(.25), # https://twiki.cern.ch/twiki/bin/view/CMS/TopMUO
+            muonTightIsoCut = cms.untracked.double(.15), # https://twiki.cern.ch/twiki/bin/view/CMS/TopMUO
             leadingMuonPtCut = cms.untracked.double(20),
-            subleadingMuonPtCut = cms.untracked.double(10),
+            subleadingMuonPtCut = cms.untracked.double(5),
             muonEtaCut = cms.untracked.double(2.4),
             electrons_loose_wp_name = cms.untracked.string("cutBasedElectronID-Spring15-25ns-V1-standalone-loose"),
             electrons_tight_wp_name = cms.untracked.string("cutBasedElectronID-Spring15-25ns-V1-standalone-tight"),
@@ -50,8 +50,8 @@ process = Framework.create(runOnData, eras.Run2_25ns, globalTag, cms.PSet(
             hltDPtCut = cms.untracked.double(0.5)  # cut will be DPt/Pt < hltDPtCut
             ),
         )
-    ), 
-    
+    ),
+
     redoJEC=False,
     process_name=processName
 
@@ -69,13 +69,19 @@ process.framework.producers.jets.parameters.cut = cms.untracked.string("pt > 20"
 
 Framework.schedule(process, ['hh_analyzer'])
 
-if runOnData : 
+if runOnData :
     process.source.fileNames = cms.untracked.vstring(
+<<<<<<< HEAD
+            "/store/data/Run2015D/SingleMuon/MINIAOD/05Oct2015-v1/30000/B49EF18E-9E6F-E511-A0BD-0025905B85A2.root"
+#            "/store/data/Run2015D/MuonEG/MINIAOD/PromptReco-v4/000/258/159/00000/64914E6C-F26B-E511-B0C8-02163E0142D1.root"
+#        '/store/data/Run2015D/DoubleMuon/MINIAOD/PromptReco-v3/000/256/675/00000/4AA27F21-8B5F-E511-9AED-02163E014472.root'
+=======
         '/store/data/Run2015D/MuonEG/MINIAOD/PromptReco-v4/000/258/159/00000/64914E6C-F26B-E511-B0C8-02163E0142D1.root'
+>>>>>>> upstream
         )
-else : 
+else :
     process.source.fileNames = cms.untracked.vstring(
         'file:////storage/data/cms/store/user/brfranco/testFiles/TTTo2L2Nu_13TeV-powheg_RunIISpring15MiniAODv2_74X_mcRun2_asymptotic_v2-v1.root'
         )
 
-process.maxEvents = cms.untracked.PSet(input = cms.untracked.int32(1000))
+process.maxEvents = cms.untracked.PSet(input = cms.untracked.int32(-1))
