@@ -6,18 +6,8 @@
 
 class DileptonCategory: public Category {
     public:
-        virtual void configure(const edm::ParameterSet& conf) override {
-            m_mll_cut = conf.getUntrackedParameter<double>("mll_cut", 20);
-            m_mll_lowerZcut = conf.getUntrackedParameter<double>("mll_lowerZcut", 85);
-        }
         const std::vector<HH::Lepton>& getLeptons(const AnalyzersManager& analyzers) const ;
         const std::vector<HH::Dilepton>& getDileptons(const AnalyzersManager& analyzers) const ;
-        const unsigned int getNJets(const AnalyzersManager& analyzers) const ;
-        const unsigned int getNBJets(const AnalyzersManager& analyzers) const ;
-
-    protected:
-        float m_mll_cut;
-        float m_mll_lowerZcut;
 };
 
 class MuMuCategory: public DileptonCategory {

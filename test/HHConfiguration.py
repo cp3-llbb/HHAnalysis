@@ -9,20 +9,15 @@ runOnData = False
 
 if runOnData :
     globalTag = '74X_dataRun2_v2'
-    processName = 'RECO'
 else : 
     globalTag = '74X_mcRun2_asymptotic_v2'
-    processName = None
 
-process = Framework.create(runOnData, eras.Run2_25ns, globalTag, cms.PSet(
+framework = Framework.Framework(runOnData, eras.Run2_25ns, globalTag=globalTag)
 
-    hh_analyzer = cms.PSet(
+framework.addAnalyzer('hh_analyzer', cms.PSet(
         type = cms.string('hh_analyzer'),
         prefix = cms.string('hh_'),
         enable = cms.bool(True),
-        categories_parameters = cms.PSet(
-            mll_cut = cms.untracked.double(10)
-            ),
         parameters = cms.PSet(
             # Here are the default value (just to show what is configurable)
             electronIsoCut_EB_Loose = cms.untracked.double(0.0893), # https://twiki.cern.ch/twiki/bin/view/CMS/CutBasedElectronIdentificationRun2
@@ -48,26 +43,21 @@ process = Framework.create(runOnData, eras.Run2_25ns, globalTag, cms.PSet(
             minDR_l_j_Cut = cms.untracked.double(0.3),
             hltDRCut = cms.untracked.double(0.3),
             hltDPtCut = cms.untracked.double(0.5)  # cut will be DPt/Pt < hltDPtCut
-            ),
+            )
         )
-    ), 
-    
-    redoJEC=False,
-    process_name=processName
+    ) 
 
-    )
+#framework.redoJEC()
+#framework.smearJets()
+framework.doSystematics(['jec']) #, 'jer'])
 
-# Add PUPPI MET
-process.framework.producers.puppimet = cms.PSet(METProducer.default_configuration.clone())
-process.framework.producers.puppimet.prefix = cms.string('puppimet_')
-process.framework.producers.puppimet.parameters.met = cms.untracked.InputTag('slimmedMETsPuppi')
+process = framework.create()
 
-# Custom the cuts
-process.framework.producers.jets.parameters.cut = cms.untracked.string("pt > 20")
-#process.framework.producers.muons.parameters.cut = cms.untracked.string("pt > 20")
-#process.framework.producers.electrons.parameters.cut = cms.untracked.string("pt > 20")
 
-Framework.schedule(process, ['hh_analyzer'])
+## Add PUPPI MET
+#process.framework.producers.puppimet = cms.PSet(METProducer.default_configuration.clone())
+#process.framework.producers.puppimet.prefix = cms.string('puppimet_')
+#process.framework.producers.puppimet.parameters.met = cms.untracked.InputTag('slimmedMETsPuppi')
 
 if runOnData : 
     process.source.fileNames = cms.untracked.vstring(

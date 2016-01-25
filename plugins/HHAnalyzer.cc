@@ -326,7 +326,6 @@ void HHAnalyzer::analyze(const edm::Event& event, const edm::EventSetup&, const 
         mymet.gen_DPtOverPt = mymet.gen_matched ? (mymet.p4.Pt() - mymet.gen_p4.Pt()) / mymet.p4.Pt() : -10.;
     }
     met.push_back(mymet);
-    const METProducer& nohf_met = producers.get<METProducer>("nohf_met");  // so that nohfmet is available in the tree
     //const METProducer& puppi_met = producers.get<METProducer>("puppimet");
     // TODO: adding puppi met will require changing the Met AND DileptonMet struct
 
