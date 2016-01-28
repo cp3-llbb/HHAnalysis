@@ -3,10 +3,12 @@
 
 #include <cp3_llbb/Framework/interface/Analyzer.h>
 #include <cp3_llbb/Framework/interface/Category.h>
+#include <cp3_llbb/Framework/interface/ScaleFactorParser.h>
 #include <cp3_llbb/HHAnalysis/interface/Types.h>
 
 #include <Math/VectorUtil.h>
 
+using namespace HH;
 using namespace HHAnalysis;
 
 class HHAnalyzer: public Framework::Analyzer {
@@ -47,6 +49,16 @@ class HHAnalyzer: public Framework::Analyzer {
 
             m_hltDRCut = config.getUntrackedParameter<double>("hltDRCut", std::numeric_limits<float>::max());
             m_hltDPtCut = config.getUntrackedParameter<double>("hltDPtCut", std::numeric_limits<float>::max());
+
+            if (config.exists("hlt_efficiencies")){
+                const edm::ParameterSet& hlt_efficiencies = config.getUntrackedParameter<edm::ParameterSet>("hlt_efficiencies");
+                std::vector<std::string> hlt_efficiencies_name = hlt_efficiencies.getParameterNames();
+                for (const std::string& hlt_efficiency: hlt_efficiencies_name) {
+                    std::cout << "Adding hlt efficiencies : " << hlt_efficiency << std::endl;
+                    ScaleFactorParser parser(hlt_efficiencies.getUntrackedParameter<edm::FileInPath>(hlt_efficiency).fullPath());
+                    m_hlt_efficiencies.emplace(hlt_efficiency, std::move(parser.get_scale_factor()));
+                }
+            }
         }
 
         // leptons and dileptons stuff
@@ -112,6 +124,41 @@ class HHAnalyzer: public Framework::Analyzer {
             return cos(ROOT::Math::VectorUtil::Angle(CSaxis.Unit(), newh1.Vect().Unit()));
         }
 
+        float getTriggerEfficiency(const Lepton & lep1, const Lepton & lep2)
+        {
+            float lep1_leg1 = 1., lep1_leg2 = 1., lep2_leg1 = 1., lep2_leg2 = 1.;
+            if (lep1.isMu && lep2.isMu) {
+                lep1_leg1 = m_hlt_efficiencies["DoubleIsoMu17Mu8_IsoMu17leg"].get({lep1.p4.Eta(), lep1.p4.Pt()})[0];
+                lep1_leg2 = m_hlt_efficiencies["DoubleIsoMu17Mu8_IsoMu8leg"].get({lep1.p4.Eta(), lep1.p4.Pt()})[0];
+                //lep1_tkLeg2 = m_hlt_efficiencies["DoubleIsoMu17Mu8_TkMu8leg"].get({lep1.p4.Eta(), lep1.p4.Pt()})[0];
+                lep2_leg1 = m_hlt_efficiencies["DoubleIsoMu17Mu8_IsoMu17leg"].get({lep2.p4.Eta(), lep2.p4.Pt()})[0];
+                lep2_leg2 = m_hlt_efficiencies["DoubleIsoMu17Mu8_IsoMu8leg"].get({lep2.p4.Eta(), lep2.p4.Pt()})[0];
+                //lep2_tkLeg2 = m_hlt_efficiencies["DoubleIsoMu17Mu8_TkMu8leg"].get({lep2.p4.Eta(), lep2.p4.Pt()})[0];
+            }
+            else if (lep1.isMu && lep2.isEl) {
+                lep1_leg1 = m_hlt_efficiencies["DoubleIsoMu17Mu8_IsoMu17leg"].get({lep1.p4.Eta(), lep1.p4.Pt()})[0];
+                lep1_leg2 = m_hlt_efficiencies["DoubleIsoMu17Mu8_IsoMu8leg"].get({lep1.p4.Eta(), lep1.p4.Pt()})[0];
+                lep2_leg1 = m_hlt_efficiencies["Ele17_12Leg1"].get({lep2.p4.Eta(), lep2.p4.Pt()})[0];
+                lep2_leg2 = m_hlt_efficiencies["Ele17_12Leg2"].get({lep2.p4.Eta(), lep2.p4.Pt()})[0];
+            }
+            else if (lep1.isEl && lep2.isMu) {
+                lep1_leg1 = m_hlt_efficiencies["Ele17_12Leg1"].get({lep1.p4.Eta(), lep1.p4.Pt()})[0];
+                lep1_leg2 = m_hlt_efficiencies["Ele17_12Leg2"].get({lep1.p4.Eta(), lep1.p4.Pt()})[0];
+                lep2_leg1 = m_hlt_efficiencies["DoubleIsoMu17Mu8_IsoMu17leg"].get({lep2.p4.Eta(), lep2.p4.Pt()})[0];
+                lep2_leg2 = m_hlt_efficiencies["DoubleIsoMu17Mu8_IsoMu8leg"].get({lep2.p4.Eta(), lep2.p4.Pt()})[0];
+            }
+            else if (lep1.isEl && lep2.isEl){
+                lep1_leg1 = m_hlt_efficiencies["Ele17_12Leg1"].get({lep1.p4.Eta(), lep1.p4.Pt()})[0];
+                lep1_leg2 = m_hlt_efficiencies["Ele17_12Leg2"].get({lep1.p4.Eta(), lep1.p4.Pt()})[0];
+                lep2_leg1 = m_hlt_efficiencies["Ele17_12Leg1"].get({lep2.p4.Eta(), lep2.p4.Pt()})[0];
+                lep2_leg2 = m_hlt_efficiencies["Ele17_12Leg2"].get({lep2.p4.Eta(), lep2.p4.Pt()})[0];
+            }
+            float total_efficiency = lep1_leg1 * lep2_leg2 + lep1_leg2 * lep2_leg1 - lep1_leg1 * lep2_leg1;
+            return total_efficiency;
+        }
+
+        
+
     private:
         // Producers name
         std::string m_electrons_producer;
@@ -127,6 +174,7 @@ class HHAnalyzer: public Framework::Analyzer {
         std::string m_jet_bDiscrName;
         std::string m_electron_loose_wp_name;
         std::string m_electron_tight_wp_name;
+        std::map<std::string, ScaleFactor> m_hlt_efficiencies;
 
 };
 

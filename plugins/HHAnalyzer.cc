@@ -185,6 +185,9 @@ void HHAnalyzer::analyze(const edm::Event& event, const edm::EventSetup&, const 
             dilep.gen_p4 = dilep.gen_matched ? leptons[ilep1].gen_p4 + leptons[ilep2].gen_p4 : null_p4;
             dilep.gen_DR = dilep.gen_matched ? ROOT::Math::VectorUtil::DeltaR(dilep.p4, dilep.gen_p4) : -1.;
             dilep.gen_DPtOverPt = dilep.gen_matched ? (dilep.p4.Pt() - dilep.gen_p4.Pt()) / dilep.p4.Pt() : -10.;
+            dilep.trigger_efficiency = event.isRealData() ? 1. : getTriggerEfficiency(leptons[ilep1], leptons[ilep2]);
+            dilep.trigger_efficiency_downVariated = event.isRealData() ? 0. : 0; // FIXME : implement trigger efficiency error
+            dilep.trigger_efficiency_upVariated = event.isRealData() ? 0. : 0; // FIXME : implement trigger efficiency error
             ll.push_back(dilep); 
         }
     }
