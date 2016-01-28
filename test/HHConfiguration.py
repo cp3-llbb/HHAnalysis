@@ -48,11 +48,17 @@ framework.addAnalyzer('hh_analyzer', cms.PSet(
             discr_cut_tight =  cms.untracked.double(0.97),
             minDR_l_j_Cut = cms.untracked.double(0.3),
             hltDRCut = cms.untracked.double(0.3),
-            hltDPtCut = cms.untracked.double(0.5)  # cut will be DPt/Pt < hltDPtCut
+            hltDPtCut = cms.untracked.double(0.5),  # cut will be DPt/Pt < hltDPtCut
+            hlt_efficiencies = cms.untracked.PSet(
+                Ele17_12Leg1 = cms.untracked.FileInPath('cp3_llbb/Framework/data/Efficiencies/Electron_HLT_Ele17_12Leg1_TightID.json'),
+                Ele17_12Leg2 = cms.untracked.FileInPath('cp3_llbb/Framework/data/Efficiencies/Electron_HLT_Ele17_12Leg2_TightID.json'),
+                DoubleIsoMu17Mu8_IsoMu17leg = cms.untracked.FileInPath('cp3_llbb/Framework/data/Efficiencies/Muon_TnP_DoubleIsoMu17Mu8_IsoMu17leg_Run2015D_25ns_PTvsETA_binBig_HWW_ID_M_ISO_T.json'),
+                DoubleIsoMu17Mu8_IsoMu8leg = cms.untracked.FileInPath('cp3_llbb/Framework/data/Efficiencies/Muon_TnP_DoubleIsoMu17Mu8_IsoMu8leg_Run2015D_25ns_PTvsETA_binBig_HWW_ID_M_ISO_T.json'),
+                DoubleIsoMu17Mu8_TkMu8leg = cms.untracked.FileInPath('cp3_llbb/Framework/data/Efficiencies/Muon_TnP_DoubleIsoMu17Mu8_TkMu8leg_Run2015D_25ns_PTvsETA_binBig_HWW_ID_M_ISO_T.json')
             )
         )
     )
-
+)
 # Add PUPPI MET
 puppiCfg = cms.PSet(METProducer.default_configuration.clone())
 puppiCfg.prefix = cms.string('puppimet_')
