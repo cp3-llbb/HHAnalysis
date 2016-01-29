@@ -59,6 +59,7 @@ puppiCfg.prefix = cms.string('puppimet_')
 puppiCfg.parameters.met = cms.untracked.InputTag('slimmedMETsPuppi')
 framework.addProducer('puppimet', puppiCfg)
 
+framework.getProducer('muons').parameters.applyRochester = cms.untracked.bool(True)
 #framework.redoJEC()
 framework.smearJets()
 framework.doSystematics(['jec', 'jer'])
