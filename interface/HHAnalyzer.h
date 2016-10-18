@@ -4,7 +4,9 @@
 #include <cp3_llbb/Framework/interface/Analyzer.h>
 #include <cp3_llbb/Framework/interface/Category.h>
 #include <cp3_llbb/Framework/interface/BinnedValuesJSONParser.h>
+
 #include <cp3_llbb/HHAnalysis/interface/Types.h>
+#include <cp3_llbb/HHAnalysis/interface/lester_mt2_bisect.h>
 
 #include <Math/VectorUtil.h>
 
@@ -60,6 +62,8 @@ class HHAnalyzer: public Framework::Analyzer {
                     m_hlt_efficiencies.emplace(hlt_efficiency, std::move(parser.get_values()));
                 }
             }
+
+            asymm_mt2_lester_bisect::disableCopyrightMessage();
         }
         virtual void endJob(MetadataManager&) override;
 

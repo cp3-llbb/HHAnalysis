@@ -600,6 +600,19 @@ void HHAnalyzer::analyze(const edm::Event& event, const edm::EventSetup&, const 
             myllmetjj.melaAngles = getMELAAngles(llmet[illmet].p4, jj[ijj].p4, leptons[ilep1].p4, leptons[ilep2].p4, jets[ijet1].p4, jets[ijet2].p4);
             myllmetjj.visMelaAngles = getMELAAngles(ll[ill].p4, jj[ijj].p4, leptons[ilep1].p4, leptons[ilep2].p4, jets[ijet1].p4, jets[ijet2].p4); // only take the visible part of the H(ww) candidate
 
+            // Compute MT2. See https://arxiv.org/pdf/1309.6318v1.pdf and https://arxiv.org/pdf/1411.4312v5.pdf
+            double px_invisible = myllmetjj.lep1_p4.px() + myllmetjj.lep2_p4.px() + myllmetjj.met_p4.px();
+            double py_invisible = myllmetjj.lep1_p4.py() + myllmetjj.lep2_p4.py() + myllmetjj.met_p4.py();
+
+            myllmetjj.MT2 = asymm_mt2_lester_bisect::get_mT2(
+                    myllmetjj.jet1_p4.M(), myllmetjj.jet1_p4.px(), myllmetjj.jet1_p4.py(),
+                    myllmetjj.jet2_p4.M(), myllmetjj.jet2_p4.px(), myllmetjj.jet2_p4.py(),
+                    px_invisible, py_invisible,
+                    myllmetjj.lep1_p4.M(), myllmetjj.lep2_p4.M(),
+                    0.5 // Absolute precision
+                    );
+
+
             // Counters
             tmp_count_has2leptons_1llmetjj = event_weight;
             if (myllmetjj.isElEl)

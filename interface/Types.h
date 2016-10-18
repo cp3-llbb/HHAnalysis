@@ -4,9 +4,9 @@
 #include <Math/Vector4D.h>
 #include <cp3_llbb/HHAnalysis/interface/Indices.h>
 
-typedef ROOT::Math::LorentzVector<ROOT::Math::PtEtaPhiE4D<float>> LorentzVector;
-
 namespace HH {
+    typedef ROOT::Math::LorentzVector<ROOT::Math::PtEtaPhiE4D<float>> LorentzVector;
+
     struct Lepton {
         LorentzVector p4;
         LorentzVector gen_p4;
@@ -208,6 +208,7 @@ namespace HH {
         float gen_DPtOverPt;
         MELAAngles melaAngles;
         MELAAngles visMelaAngles;
+        float MT2;
     };
 }
 
