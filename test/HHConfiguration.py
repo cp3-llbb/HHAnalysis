@@ -57,12 +57,34 @@ framework.addAnalyzer('hh_analyzer', cms.PSet(
             hltDPtCut = cms.untracked.double(0.5),  # cut will be DPt/Pt < hltDPtCut
             applyBJetRegression = cms.untracked.bool(False), # BE SURE TO ACTIVATE computeRegression FLAG BELOW
             hlt_efficiencies = cms.untracked.PSet(
-                Ele17_12Leg1 = cms.untracked.FileInPath('cp3_llbb/Framework/data/Efficiencies/Electron_HLT_Ele17_12Leg1_76X_Tight_HWW.json'),
-                Ele17_12Leg2 = cms.untracked.FileInPath('cp3_llbb/Framework/data/Efficiencies/Electron_HLT_Ele17_12Leg1_76X_Tight_HWW.json'),
-                DoubleIsoMu17Mu8_IsoMu17leg = cms.untracked.FileInPath('cp3_llbb/Framework/data/Efficiencies/Muon_DoubleMu_IsoMu17leg_Run2015D_25ns_PTvsETA_HWW_76X.json'),
-                DoubleIsoMu17Mu8_IsoMu8orIsoTkMu8leg = cms.untracked.FileInPath('cp3_llbb/Framework/data/Efficiencies/Muon_DoubleMu_IsoMu8orIsoTkMu8leg_Run2015D_25ns_PTvsETA_HWW_76X.json'),
-                DoubleIsoMu17Mu8_IsoMu8leg = cms.untracked.FileInPath('cp3_llbb/Framework/data/Efficiencies/Muon_DoubleMu_IsoMu8leg_Run2015D_25ns_PTvsETA_HWW_76X.json'),
-                #DoubleIsoMu17Mu8_TkMu8leg = cms.untracked.FileInPath('cp3_llbb/Framework/data/Efficiencies/Muon_TnP_DoubleIsoMu17Mu8_TkMu8leg_Run2015D_25ns_PTvsETA_binBig_HWW_ID_M_ISO_T.json')
+                # di-muon triggers
+                DoubleMuIsoMu17leg_RunLt274094 = cms.untracked.FileInPath('cp3_llbb/Framework/data/Efficiencies/Muon_DoubleMu_IsoMu17leg_Run2016_PTvsETA_RunLt274094_HWW.json'),
+                DoubleMuIsoMu17leg_Run274094to275000 = cms.untracked.FileInPath('cp3_llbb/Framework/data/Efficiencies/Muon_DoubleMu_IsoMu17leg_Run2016_PTvsETA_Run274094to275000_HWW.json'),
+                DoubleMuIsoMu17leg_Run275001to275783 = cms.untracked.FileInPath('cp3_llbb/Framework/data/Efficiencies/Muon_DoubleMu_IsoMu17leg_Run2016_PTvsETA_Run275001to275783_HWW.json'),
+                DoubleMuIsoMu17leg_Run275784to276500 = cms.untracked.FileInPath('cp3_llbb/Framework/data/Efficiencies/Muon_DoubleMu_IsoMu17leg_Run2016_PTvsETA_Run275784to276500_HWW.json'),
+                DoubleMuIsoMu17leg_Run276501to276811 = cms.untracked.FileInPath('cp3_llbb/Framework/data/Efficiencies/Muon_DoubleMu_IsoMu17leg_Run2016_PTvsETA_Run276501to276811_HWW.json'),
+                DoubleMuIsoMu8orIsoTkMu8leg_RunLt274094 = cms.untracked.FileInPath('cp3_llbb/Framework/data/Efficiencies/Muon_DoubleMu_IsoMu8orIsoTkMu8leg_Run2016_PTvsETA_RunLt274094_HWW.json'),
+                DoubleMuIsoMu8orIsoTkMu8leg_Run274094to275000 = cms.untracked.FileInPath('cp3_llbb/Framework/data/Efficiencies/Muon_DoubleMu_IsoMu8orIsoTkMu8leg_Run2016_PTvsETA_Run274094to275000_HWW.json'),
+                DoubleMuIsoMu8orIsoTkMu8leg_Run275001to275783 = cms.untracked.FileInPath('cp3_llbb/Framework/data/Efficiencies/Muon_DoubleMu_IsoMu8orIsoTkMu8leg_Run2016_PTvsETA_Run275001to275783_HWW.json'),
+                DoubleMuIsoMu8orIsoTkMu8leg_Run275784to276500 = cms.untracked.FileInPath('cp3_llbb/Framework/data/Efficiencies/Muon_DoubleMu_IsoMu8orIsoTkMu8leg_Run2016_PTvsETA_Run275784to276500_HWW.json'),
+                DoubleMuIsoMu8orIsoTkMu8leg_Run276501to276811 = cms.untracked.FileInPath('cp3_llbb/Framework/data/Efficiencies/Muon_DoubleMu_IsoMu8orIsoTkMu8leg_Run2016_PTvsETA_Run276501to276811_HWW.json'),
+                # di-electron triggers
+                DoubleEleLegHigPt = cms.untracked.FileInPath('cp3_llbb/Framework/data/Efficiencies/Electron_HLT_DoubleEleLegHigPt_HWW.json'),
+                DoubleEleLegLowPt = cms.untracked.FileInPath('cp3_llbb/Framework/data/Efficiencies/Electron_HLT_DoubleEleLegLowPt_HWW.json'),
+                # cross-triggers: EleMu
+                EleMuLegHigPt = cms.untracked.FileInPath('cp3_llbb/Framework/data/Efficiencies/Electron_HLT_EleMuLegHigPt_HWW.json'),
+                EleMuIsoMu8leg_RunLt274094 = cms.untracked.FileInPath('cp3_llbb/Framework/data/Efficiencies/Muon_DoubleMu_IsoMu8leg_Run2016_PTvsETA_RunLt274094_HWW.json'),
+                EleMuIsoMu8leg_Run274094to275000 = cms.untracked.FileInPath('cp3_llbb/Framework/data/Efficiencies/Muon_DoubleMu_IsoMu8leg_Run2016_PTvsETA_Run274094to275000_HWW.json'),
+                EleMuIsoMu8leg_Run275001to275783 = cms.untracked.FileInPath('cp3_llbb/Framework/data/Efficiencies/Muon_DoubleMu_IsoMu8leg_Run2016_PTvsETA_Run275001to275783_HWW.json'),
+                EleMuIsoMu8leg_Run275784to276500 = cms.untracked.FileInPath('cp3_llbb/Framework/data/Efficiencies/Muon_DoubleMu_IsoMu8leg_Run2016_PTvsETA_Run275784to276500_HWW.json'),
+                EleMuIsoMu8leg_Run276501to276811 = cms.untracked.FileInPath('cp3_llbb/Framework/data/Efficiencies/Muon_DoubleMu_IsoMu8leg_Run2016_PTvsETA_Run276501to276811_HWW.json'),
+                # cross-triggers: MuEle
+                MuEleIsoMu23leg_RunLt274094 = cms.untracked.FileInPath('cp3_llbb/Framework/data/Efficiencies/Muon_DoubleMu_IsoMu23leg_Run2016_PTvsETA_RunLt274094_HWW.json'),
+                MuEleIsoMu23leg_Run274094to275000 = cms.untracked.FileInPath('cp3_llbb/Framework/data/Efficiencies/Muon_DoubleMu_IsoMu23leg_Run2016_PTvsETA_Run274094to275000_HWW.json'),
+                MuEleIsoMu23leg_Run275001to275783 = cms.untracked.FileInPath('cp3_llbb/Framework/data/Efficiencies/Muon_DoubleMu_IsoMu23leg_Run2016_PTvsETA_Run275001to275783_HWW.json'),
+                MuEleIsoMu23leg_Run275784to276500 = cms.untracked.FileInPath('cp3_llbb/Framework/data/Efficiencies/Muon_DoubleMu_IsoMu23leg_Run2016_PTvsETA_Run275784to276500_HWW.json'),
+                MuEleIsoMu23leg_Run276501to276811 = cms.untracked.FileInPath('cp3_llbb/Framework/data/Efficiencies/Muon_DoubleMu_IsoMu23leg_Run2016_PTvsETA_Run276501to276811_HWW.json'),
+                MuEleLegLowPt = cms.untracked.FileInPath('cp3_llbb/Framework/data/Efficiencies/Electron_HLT_MuEleLegLowPt_HWW.json'),
             ),
         )
     )

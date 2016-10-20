@@ -43,18 +43,14 @@ bool MuMuCategory::event_in_category_post_analyzers(const ProducersManager& prod
 };
 
 void MuMuCategory::register_cuts(CutManager& manager) {
-    manager.new_cut("fire_trigger_Mu17_Mu8", "HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_v*");
-    manager.new_cut("fire_trigger_Mu17_TkMu8", "HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_DZ_v*");
-    manager.new_cut("fire_trigger_IsoMu27", "HLT_IsoMu27_v*");
+    manager.new_cut("fire_trigger_MuMu", "HLT_Mu*");
 };
 
 void MuMuCategory::evaluate_cuts_post_analyzers(CutManager& manager, const ProducersManager& producers, const AnalyzersManager& analyzers) const {
     const HLTProducer& hlt = producers.get<HLTProducer>("hlt");
     for (const std::string& path: hlt.paths) 
     {
-        if (path.find("HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_v") != std::string::npos) manager.pass_cut("fire_trigger_Mu17_Mu8");
-        if (path.find("HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_DZ_v") != std::string::npos) manager.pass_cut("fire_trigger_Mu17_TkMu8");
-        if (path.find("HLT_IsoMu27_v") != std::string::npos) manager.pass_cut("fire_trigger_IsoMu27");
+        if (path.find("HLT_Mu") != std::string::npos) manager.pass_cut("fire_trigger_MuMu");
     }
 }
 
@@ -78,16 +74,14 @@ bool ElElCategory::event_in_category_post_analyzers(const ProducersManager& prod
 };
 
 void ElElCategory::register_cuts(CutManager& manager) {
-    manager.new_cut("fire_trigger_Ele17_Ele12", "HLT_Ele17_Ele12_CaloIdL_TrackIdL_IsoVL_DZ*");
-    //manager.new_cut("fire_trigger_Ele23_WPLoose", "HLT_Ele23_WPLoose_Gsf_v*");
+    manager.new_cut("fire_trigger_EleEle", "HLT_Ele*");
 };
 
 void ElElCategory::evaluate_cuts_post_analyzers(CutManager& manager, const ProducersManager& producers, const AnalyzersManager& analyzers) const {
     const HLTProducer& hlt = producers.get<HLTProducer>("hlt");
     for (const std::string& path: hlt.paths) 
     {
-        if (path.find("HLT_Ele17_Ele12_CaloIdL_TrackIdL_IsoVL_DZ_v") != std::string::npos) manager.pass_cut("fire_trigger_Ele17_Ele12");
-        //if (path.find("HLT_Ele23_WPLoose_Gsf_v") != std::string::npos) manager.pass_cut("fire_trigger_Ele23_WPLoose");
+        if (path.find("HLT_Ele") != std::string::npos) manager.pass_cut("fire_trigger_EleEle");
     }
 }
 
@@ -112,14 +106,17 @@ bool ElMuCategory::event_in_category_post_analyzers(const ProducersManager& prod
 };
 
 void ElMuCategory::register_cuts(CutManager& manager) {
-    manager.new_cut("fire_trigger_Mu8_Ele17", "HLT_Mu8_TrkIsoVVL_Ele17_CaloIdL_TrackIdL_IsoVL_*");
+    manager.new_cut("fire_trigger_MuEle", "HLT_Mu*Ele*");
 };
 
 void ElMuCategory::evaluate_cuts_post_analyzers(CutManager& manager, const ProducersManager& producers, const AnalyzersManager& analyzers) const {
     const HLTProducer& hlt = producers.get<HLTProducer>("hlt");
     for (const std::string& path: hlt.paths) 
     {
-        if (path.find("HLT_Mu8_TrkIsoVVL_Ele17_CaloIdL_TrackIdL_IsoVL_v") != std::string::npos) manager.pass_cut("fire_trigger_Mu8_Ele17");
+        // admittedly this could be either Mu-Ele or Ele-Mu trigger paths
+        if (path.find("HLT_Mu") != std::string::npos
+            && path.find("Ele") != std::string::npos)
+            manager.pass_cut("fire_trigger_MuEle");
     }
 }
 
@@ -144,14 +141,16 @@ bool MuElCategory::event_in_category_post_analyzers(const ProducersManager& prod
 };
 
 void MuElCategory::register_cuts(CutManager& manager) {
-    manager.new_cut("fire_trigger_Mu17_Ele12", "HLT_Mu17_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_*");
+    manager.new_cut("fire_trigger_MuEle", "HLT_Mu*Ele*");
 };
 
 void MuElCategory::evaluate_cuts_post_analyzers(CutManager& manager, const ProducersManager& producers, const AnalyzersManager& analyzers) const {
     const HLTProducer& hlt = producers.get<HLTProducer>("hlt");
     for (const std::string& path: hlt.paths) 
     {
-        if (path.find("HLT_Mu17_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_v") != std::string::npos) manager.pass_cut("fire_trigger_Mu17_Ele12");
+        if (path.find("HLT_Mu") != std::string::npos
+            && path.find("Ele") != std::string::npos)
+            manager.pass_cut("fire_trigger_MuEle");
     }
 }
 
