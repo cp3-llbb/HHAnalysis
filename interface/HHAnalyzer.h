@@ -5,6 +5,7 @@
 #include <cp3_llbb/Framework/interface/Category.h>
 #include <cp3_llbb/Framework/interface/BinnedValuesJSONParser.h>
 
+#include <cp3_llbb/HHAnalysis/interface/WeightedEfficiency.h>
 #include <cp3_llbb/HHAnalysis/interface/Types.h>
 #include <cp3_llbb/HHAnalysis/interface/lester_mt2_bisect.h>
 
@@ -54,13 +55,11 @@ class HHAnalyzer: public Framework::Analyzer {
             m_hltDRCut = config.getUntrackedParameter<double>("hltDRCut", std::numeric_limits<float>::max());
             m_hltDPtCut = config.getUntrackedParameter<double>("hltDPtCut", std::numeric_limits<float>::max());
 
-            if (config.exists("hlt_efficiencies")){
-                const edm::ParameterSet& hlt_efficiencies = config.getUntrackedParameter<edm::ParameterSet>("hlt_efficiencies");
-                std::vector<std::string> hlt_efficiencies_name = hlt_efficiencies.getParameterNames();
-                for (const std::string& hlt_efficiency: hlt_efficiencies_name) {
-                    BinnedValuesJSONParser parser(hlt_efficiencies.getUntrackedParameter<edm::FileInPath>(hlt_efficiency).fullPath());
-                    m_hlt_efficiencies.emplace(hlt_efficiency, std::move(parser.get_values()));
-                }
+            const edm::ParameterSet& hlt_efficiencies = config.getUntrackedParameter<edm::ParameterSet>("hlt_efficiencies");
+            std::vector<std::string> hlt_efficiencies_name = hlt_efficiencies.getParameterNames();
+            for (const std::string& hlt_efficiency: hlt_efficiencies_name) {
+                const auto& parts = hlt_efficiencies.getUntrackedParameter<std::vector<edm::ParameterSet>>(hlt_efficiency);
+                m_hlt_efficiencies.emplace(hlt_efficiency, WeightedEfficiency(parts));
             }
 
             asymm_mt2_lester_bisect::disableCopyrightMessage();
@@ -226,7 +225,7 @@ class HHAnalyzer: public Framework::Analyzer {
         std::string m_electron_medium_wp_name;
         std::string m_electron_tight_wp_name;
         bool m_applyBJetRegression;
-        std::map<std::string, BinnedValues> m_hlt_efficiencies;
+        std::unordered_map<std::string, WeightedEfficiency> m_hlt_efficiencies;
 
 };
 
