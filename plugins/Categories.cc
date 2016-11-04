@@ -4,9 +4,15 @@
 
 #include <cp3_llbb/HHAnalysis/interface/Categories.h>
 
+#include <regex>
+
 // ***** ***** *****
 // Dilepton categories
 // ***** ***** *****
+
+static std::regex s_mumu_hlt_regex("^HLT_Mu.*_Mu");
+static std::regex s_elel_hlt_regex("^HLT_Ele.*_Ele");
+static std::regex s_muel_elmu_hlt_regex("^HLT_Mu.*_Ele");
 
 const std::vector<HH::Lepton>& DileptonCategory::getLeptons(const AnalyzersManager& analyzers) const {
     const HHAnalyzer& hh_analyzer = analyzers.get<HHAnalyzer>(m_analyzer_name);
@@ -43,14 +49,16 @@ bool MuMuCategory::event_in_category_post_analyzers(const ProducersManager& prod
 };
 
 void MuMuCategory::register_cuts(CutManager& manager) {
-    manager.new_cut("fire_trigger_MuMu", "HLT_Mu*");
+    manager.new_cut("fire_trigger", "HLT_Mu*");
 };
 
 void MuMuCategory::evaluate_cuts_post_analyzers(CutManager& manager, const ProducersManager& producers, const AnalyzersManager& analyzers) const {
     const HLTProducer& hlt = producers.get<HLTProducer>("hlt");
-    for (const std::string& path: hlt.paths) 
-    {
-        if (path.find("HLT_Mu") != std::string::npos) manager.pass_cut("fire_trigger_MuMu");
+    for (const std::string& path: hlt.paths) {
+        if (std::regex_search(path, s_mumu_hlt_regex)) {
+            manager.pass_cut("fire_trigger");
+            break;
+        }
     }
 }
 
@@ -74,14 +82,16 @@ bool ElElCategory::event_in_category_post_analyzers(const ProducersManager& prod
 };
 
 void ElElCategory::register_cuts(CutManager& manager) {
-    manager.new_cut("fire_trigger_EleEle", "HLT_Ele*");
+    manager.new_cut("fire_trigger", "HLT_Ele*");
 };
 
 void ElElCategory::evaluate_cuts_post_analyzers(CutManager& manager, const ProducersManager& producers, const AnalyzersManager& analyzers) const {
     const HLTProducer& hlt = producers.get<HLTProducer>("hlt");
-    for (const std::string& path: hlt.paths) 
-    {
-        if (path.find("HLT_Ele") != std::string::npos) manager.pass_cut("fire_trigger_EleEle");
+    for (const std::string& path: hlt.paths) {
+        if (std::regex_search(path, s_elel_hlt_regex)) {
+            manager.pass_cut("fire_trigger");
+            break;
+        }
     }
 }
 
@@ -106,17 +116,16 @@ bool ElMuCategory::event_in_category_post_analyzers(const ProducersManager& prod
 };
 
 void ElMuCategory::register_cuts(CutManager& manager) {
-    manager.new_cut("fire_trigger_MuEle", "HLT_Mu*Ele*");
+    manager.new_cut("fire_trigger", "HLT_Mu*Ele*");
 };
 
 void ElMuCategory::evaluate_cuts_post_analyzers(CutManager& manager, const ProducersManager& producers, const AnalyzersManager& analyzers) const {
     const HLTProducer& hlt = producers.get<HLTProducer>("hlt");
-    for (const std::string& path: hlt.paths) 
-    {
-        // admittedly this could be either Mu-Ele or Ele-Mu trigger paths
-        if (path.find("HLT_Mu") != std::string::npos
-            && path.find("Ele") != std::string::npos)
-            manager.pass_cut("fire_trigger_MuEle");
+    for (const std::string& path: hlt.paths) {
+        if (std::regex_search(path, s_muel_elmu_hlt_regex)) {
+            manager.pass_cut("fire_trigger");
+            break;
+        }
     }
 }
 
@@ -141,16 +150,16 @@ bool MuElCategory::event_in_category_post_analyzers(const ProducersManager& prod
 };
 
 void MuElCategory::register_cuts(CutManager& manager) {
-    manager.new_cut("fire_trigger_MuEle", "HLT_Mu*Ele*");
+    manager.new_cut("fire_trigger", "HLT_Mu*Ele*");
 };
 
 void MuElCategory::evaluate_cuts_post_analyzers(CutManager& manager, const ProducersManager& producers, const AnalyzersManager& analyzers) const {
     const HLTProducer& hlt = producers.get<HLTProducer>("hlt");
-    for (const std::string& path: hlt.paths) 
-    {
-        if (path.find("HLT_Mu") != std::string::npos
-            && path.find("Ele") != std::string::npos)
-            manager.pass_cut("fire_trigger_MuEle");
+    for (const std::string& path: hlt.paths) {
+        if (std::regex_search(path, s_muel_elmu_hlt_regex)) {
+            manager.pass_cut("fire_trigger");
+            break;
+        }
     }
 }
 
