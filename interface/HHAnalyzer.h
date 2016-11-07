@@ -8,6 +8,7 @@
 
 #include <cp3_llbb/HHAnalysis/interface/Types.h>
 #include <cp3_llbb/HHAnalysis/interface/lester_mt2_bisect.h>
+#include <cp3_llbb/Framework/interface/HLTProducer.h>
 
 #include <Math/VectorUtil.h>
 
@@ -98,9 +99,10 @@ class HHAnalyzer: public Framework::Analyzer {
         virtual void analyze(const edm::Event&, const edm::EventSetup&, const ProducersManager&, const AnalyzersManager&, const CategoryManager&) override;
         virtual void registerCategories(CategoryManager& manager, const edm::ParameterSet& config) override;
 
+        // Various helper functions, implemented in plugins/Tools.cc
         float getCosThetaStar_CS(const LorentzVector & h1, const LorentzVector & h2, float ebeam = 6500);
         MELAAngles getMELAAngles(const LorentzVector &q1, const LorentzVector &q2, const LorentzVector &q11, const LorentzVector &q12, const LorentzVector &q21, const LorentzVector &q22, float ebeam = 6500);
-
+        void matchOfflineLepton(const HLTProducer& hlt, Dilepton& dilepton);
         void fillTriggerEfficiencies(const Lepton & lep1, const Lepton & lep2, Dilepton & dilep);
 
         // global event stuff (selected objects multiplicity)

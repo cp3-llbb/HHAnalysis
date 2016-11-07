@@ -17,6 +17,8 @@ namespace HH {
         bool hlt_already_tried_matching = false; // do the matching only once, even when the lepton is in several Dilepton
         float hlt_DR_matchedObject = std::numeric_limits<float>::max();
         float hlt_DPtOverPt_matchedObject = std::numeric_limits<float>::max();
+        bool hlt_leg1;
+        bool hlt_leg2;
         bool isMu;
         bool isEl;
         bool id_L; // Loose

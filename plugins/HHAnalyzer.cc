@@ -1,5 +1,4 @@
 #include <cp3_llbb/HHAnalysis/interface/HHAnalyzer.h>
-#include <cp3_llbb/HHAnalysis/interface/Tools.h>
 #include <cp3_llbb/Framework/interface/BTagsAnalyzer.h>
 #include <cp3_llbb/HHAnalysis/interface/Categories.h>
 #include <cp3_llbb/HHAnalysis/interface/GenStatusFlags.h>
@@ -15,7 +14,6 @@
 
 #include <cmath>
 
-#define HHANADEBUG 0
 #define HH_GEN_DEBUG (false)
 #define TT_GEN_DEBUG (false)
 
@@ -56,41 +54,7 @@ void HHAnalyzer::analyze(const edm::Event& event, const edm::EventSetup&, const 
     // ***** ***** *****
 
     const HLTProducer& hlt = producers.get<HLTProducer>("hlt");
-    //Function that tries to match `lepton` with an online object, using a deltaR and a deltaPt cut   
-    //Returns the index inside the HLTProducer collection, or -1 if no match is found.
-    //(Taken from https://github.com/blinkseb/TTAnalysis/blob/c2a2d5de3e4281943c19c582afb452b8ef6457f1/plugins/TTAnalyzer.cc#L533)
-    auto matchOfflineLepton = [&](HH::Lepton& lepton) {
-
-        if (lepton.hlt_already_tried_matching)
-            return lepton.hlt_idx;
-        float min_dr = std::numeric_limits<float>::max();
-        float final_dpt_over_pt = std::numeric_limits<float>::max();
-
-        int8_t index = -1;
-        for (size_t hlt_object = 0; hlt_object < hlt.object_p4.size(); hlt_object++) {
-
-            float dr = ROOT::Math::VectorUtil::DeltaR(lepton.p4, hlt.object_p4[hlt_object]);
-            float dpt_over_pt = fabs(lepton.p4.Pt() - hlt.object_p4[hlt_object].Pt()) / lepton.p4.Pt();
-
-            if (dr > m_hltDRCut)
-                continue;
-
-            if (dpt_over_pt > m_hltDPtCut)
-                continue;
-
-            if (dr < min_dr) {
-                min_dr = dr;
-                final_dpt_over_pt = dpt_over_pt;
-                index = hlt_object;
-            }
-        }
-        lepton.hlt_idx = index;
-        lepton.hlt_already_tried_matching = true;
-        lepton.hlt_DR_matchedObject = min_dr;
-        lepton.hlt_DPtOverPt_matchedObject = final_dpt_over_pt;
-        return index;
-    };
-
+    // the actual trigger matching to dilepton HLT paths happens only once we have a dilepton candidate to consider in the event
 
     // ********** 
     // Leptons and dileptons
@@ -125,6 +89,8 @@ void HHAnalyzer::analyze(const edm::Event& event, const edm::EventSetup&, const 
             ele.gen_p4 = ele.gen_matched ? allelectrons.gen_p4[ielectron] : null_p4;
             ele.gen_DR = ele.gen_matched ? ROOT::Math::VectorUtil::DeltaR(ele.p4, ele.gen_p4): -1.;
             ele.gen_DPtOverPt = ele.gen_matched ? (ele.p4.Pt() - ele.gen_p4.Pt()) / ele.p4.Pt() : -10.;
+            ele.hlt_leg1 = false;
+            ele.hlt_leg2 = false;
             // some selection
             if (!ele.id_HWW || !ele.iso_HWW)
                 continue;
@@ -155,6 +121,8 @@ void HHAnalyzer::analyze(const edm::Event& event, const edm::EventSetup&, const 
             mu.gen_p4 = mu.gen_matched ? allmuons.gen_p4[imuon] : null_p4;
             mu.gen_DR = mu.gen_matched ? ROOT::Math::VectorUtil::DeltaR(mu.p4, mu.gen_p4) : -1.;
             mu.gen_DPtOverPt = mu.gen_matched ? (mu.p4.Pt() - mu.gen_p4.Pt()) / mu.p4.Pt() : -10.;
+            mu.hlt_leg1 = false;
+            mu.hlt_leg2 = false;
             // some selection
             if (!mu.id_HWW || !mu.iso_HWW)
                 continue;
@@ -212,7 +180,10 @@ void HHAnalyzer::analyze(const edm::Event& event, const edm::EventSetup&, const 
             dilep.DR_l_l = ROOT::Math::VectorUtil::DeltaR(leptons[ilep1].p4, leptons[ilep2].p4);
             dilep.DPhi_l_l = fabs(ROOT::Math::VectorUtil::DeltaPhi(leptons[ilep1].p4, leptons[ilep2].p4));
             dilep.ht_l_l = leptons[ilep1].p4.Pt() + leptons[ilep2].p4.Pt();
-            if (!hlt.paths.empty()) dilep.hlt_idxs = std::make_pair(matchOfflineLepton(leptons[ilep1]),matchOfflineLepton(leptons[ilep2]));
+            if (!hlt.paths.empty()) {
+                matchOfflineLepton(hlt, dilep);
+                dilep.hlt_idxs = std::make_pair(leptons[dilep.ilep1].hlt_idx, leptons[dilep.ilep2].hlt_idx);
+            }
             dilep.gen_matched = leptons[ilep1].gen_matched && leptons[ilep2].gen_matched;
             dilep.gen_p4 = dilep.gen_matched ? leptons[ilep1].gen_p4 + leptons[ilep2].gen_p4 : null_p4;
             dilep.gen_DR = dilep.gen_matched ? ROOT::Math::VectorUtil::DeltaR(dilep.p4, dilep.gen_p4) : -1.;
@@ -231,8 +202,14 @@ void HHAnalyzer::analyze(const edm::Event& event, const edm::EventSetup&, const 
             // Note that ID and isolation criteria are in both electron and muon loops
             if (!dilep.isOS)
                 continue;
-            if (event.isRealData() && !(leptons[ilep1].hlt_DR_matchedObject < m_hltDRCut && leptons[ilep2].hlt_DR_matchedObject < m_hltDRCut))
+
+            // Throw event if there is no matched dilepton trigger path (only on data)
+            if (event.isRealData()
+                && !((leptons[dilep.ilep1].hlt_leg1 && leptons[dilep.ilep2].hlt_leg2)
+                || (leptons[dilep.ilep1].hlt_leg2 && leptons[dilep.ilep2].hlt_leg1))) {
                 continue;
+            }
+
             // Counters
             tmp_count_has2leptons = event_weight;
             if (dilep.isElEl)
@@ -243,6 +220,7 @@ void HHAnalyzer::analyze(const edm::Event& event, const edm::EventSetup&, const 
                 tmp_count_has2leptons_muel = event_weight;
             if (dilep.isElEl)
                 tmp_count_has2leptons_mumu = event_weight;
+
             // Fill
             ll.push_back(dilep); 
         }

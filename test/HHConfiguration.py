@@ -74,6 +74,7 @@ framework.addAnalyzer('hh_analyzer', cms.PSet(
         )
     )
 )
+
 # Add PUPPI MET
 puppiCfg = cms.PSet(METProducer.default_configuration.clone())
 puppiCfg.prefix = cms.string('puppimet_')
@@ -95,6 +96,8 @@ process = framework.create()
 if runOnData : 
     process.source.fileNames = cms.untracked.vstring(
         '/store/data/Run2016B/DoubleMuon/MINIAOD/PromptReco-v2/000/273/158/00000/A6AC80E5-121A-E611-A689-02163E01439E.root'
+#        '/store/data/Run2016B/DoubleEG/MINIAOD/PromptReco-v2/000/274/442/00000/30D4864F-DD2D-E611-BDF9-02163E013427.root'
+#        '/store/data/Run2016B/MuonEG/MINIAOD/PromptReco-v2/000/275/370/00000/2E773576-D938-E611-9FCE-02163E013753.root'
         )
 else : 
     process.source.fileNames = cms.untracked.vstring(
@@ -102,4 +105,6 @@ else :
 #        '/store/mc/RunIISpring16MiniAODv2/TTTo2L2Nu_13TeV-powheg/MINIAODSIM/PUSpring16_80X_mcRun2_asymptotic_2016_miniAODv2_v0_ext1-v1/60000/022B4AD3-7A1B-E611-812B-28924A33B9AA.root'
         )
 
+#process.MessageLogger.cerr.FwkReport.reportEvery = 1
+#process.source.skipEvents = cms.untracked.uint32(10)
 process.maxEvents = cms.untracked.PSet(input = cms.untracked.int32(1000))
