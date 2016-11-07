@@ -62,46 +62,46 @@ framework.addAnalyzer('hh_analyzer', cms.PSet(
                     IsoMu17leg = cms.untracked.VPSet(
                         cms.untracked.PSet(
                             file = cms.untracked.FileInPath('cp3_llbb/Framework/data/Efficiencies/Muon_DoubleMu_IsoMu17leg_Run2016_PTvsETA_RunLt274094_HWW.json'),
-                            weight = cms.untracked.double(1000)
+                            weight = cms.untracked.double(621.888)
                         ),
                         cms.untracked.PSet(
                             file = cms.untracked.FileInPath('cp3_llbb/Framework/data/Efficiencies/Muon_DoubleMu_IsoMu17leg_Run2016_PTvsETA_Run274094to275000_HWW.json'),
-                            weight = cms.untracked.double(1000)
+                            weight = cms.untracked.double(2916.386)
                         ),
                         cms.untracked.PSet(
                             file = cms.untracked.FileInPath('cp3_llbb/Framework/data/Efficiencies/Muon_DoubleMu_IsoMu17leg_Run2016_PTvsETA_Run275001to275783_HWW.json'),
-                            weight = cms.untracked.double(1000)
+                            weight = cms.untracked.double(2735.916)
                         ),
                         cms.untracked.PSet(
                             file = cms.untracked.FileInPath('cp3_llbb/Framework/data/Efficiencies/Muon_DoubleMu_IsoMu17leg_Run2016_PTvsETA_Run275784to276500_HWW.json'),
-                            weight = cms.untracked.double(1000)
+                            weight = cms.untracked.double(3426.131)
                         ),
                         cms.untracked.PSet(
                             file = cms.untracked.FileInPath('cp3_llbb/Framework/data/Efficiencies/Muon_DoubleMu_IsoMu17leg_Run2016_PTvsETA_Run276501to276811_HWW.json'),
-                            weight = cms.untracked.double(1000)
+                            weight = cms.untracked.double(3191.207)
                         ),
                     ),
 
                     IsoMu8orIsoTkMu8leg = cms.untracked.VPSet(
                         cms.untracked.PSet(
                             file = cms.untracked.FileInPath('cp3_llbb/Framework/data/Efficiencies/Muon_DoubleMu_IsoMu8orIsoTkMu8leg_Run2016_PTvsETA_RunLt274094_HWW.json'),
-                            weight = cms.untracked.double(1000)
+                            weight = cms.untracked.double(621.888)
                         ),
                         cms.untracked.PSet(
                             file = cms.untracked.FileInPath('cp3_llbb/Framework/data/Efficiencies/Muon_DoubleMu_IsoMu8orIsoTkMu8leg_Run2016_PTvsETA_Run274094to275000_HWW.json'),
-                            weight = cms.untracked.double(1000)
+                            weight = cms.untracked.double(2916.386)
                         ),
                         cms.untracked.PSet(
                             file = cms.untracked.FileInPath('cp3_llbb/Framework/data/Efficiencies/Muon_DoubleMu_IsoMu8orIsoTkMu8leg_Run2016_PTvsETA_Run275001to275783_HWW.json'),
-                            weight = cms.untracked.double(1000)
+                            weight = cms.untracked.double(2735.916)
                         ),
                         cms.untracked.PSet(
                             file = cms.untracked.FileInPath('cp3_llbb/Framework/data/Efficiencies/Muon_DoubleMu_IsoMu8orIsoTkMu8leg_Run2016_PTvsETA_Run275784to276500_HWW.json'),
-                            weight = cms.untracked.double(1000)
+                            weight = cms.untracked.double(3426.131)
                         ),
                         cms.untracked.PSet(
                             file = cms.untracked.FileInPath('cp3_llbb/Framework/data/Efficiencies/Muon_DoubleMu_IsoMu8orIsoTkMu8leg_Run2016_PTvsETA_Run276501to276811_HWW.json'),
-                            weight = cms.untracked.double(1000)
+                            weight = cms.untracked.double(3191.207)
                         ),
                     ),
 
@@ -136,46 +136,46 @@ framework.addAnalyzer('hh_analyzer', cms.PSet(
                     IsoMu8leg = cms.untracked.VPSet(
                         cms.untracked.PSet(
                             file = cms.untracked.FileInPath('cp3_llbb/Framework/data/Efficiencies/Muon_DoubleMu_IsoMu8leg_Run2016_PTvsETA_RunLt274094_HWW.json'),
-                            weight = cms.untracked.double(1000)
+                            weight = cms.untracked.double(621.888)
                         ),
                         cms.untracked.PSet(
                             file = cms.untracked.FileInPath('cp3_llbb/Framework/data/Efficiencies/Muon_DoubleMu_IsoMu8leg_Run2016_PTvsETA_Run274094to275000_HWW.json'),
-                            weight = cms.untracked.double(1000)
+                            weight = cms.untracked.double(2916.386)
                         ),
                         cms.untracked.PSet(
                             file = cms.untracked.FileInPath('cp3_llbb/Framework/data/Efficiencies/Muon_DoubleMu_IsoMu8leg_Run2016_PTvsETA_Run275001to275783_HWW.json'),
-                            weight = cms.untracked.double(1000)
+                            weight = cms.untracked.double(2735.916)
                         ),
                         cms.untracked.PSet(
                             file = cms.untracked.FileInPath('cp3_llbb/Framework/data/Efficiencies/Muon_DoubleMu_IsoMu8leg_Run2016_PTvsETA_Run275784to276500_HWW.json'),
-                            weight = cms.untracked.double(1000)
+                            weight = cms.untracked.double(3426.131)
                         ),
                         cms.untracked.PSet(
                             file = cms.untracked.FileInPath('cp3_llbb/Framework/data/Efficiencies/Muon_DoubleMu_IsoMu8leg_Run2016_PTvsETA_Run276501to276811_HWW.json'),
-                            weight = cms.untracked.double(1000)
+                            weight = cms.untracked.double(3191.207)
                         ),
                     ),
 
                     IsoMu23leg = cms.untracked.VPSet(
                         cms.untracked.PSet(
                             file = cms.untracked.FileInPath('cp3_llbb/Framework/data/Efficiencies/Muon_DoubleMu_IsoMu23leg_Run2016_PTvsETA_RunLt274094_HWW.json'),
-                            weight = cms.untracked.double(1000)
+                            weight = cms.untracked.double(621.888)
                         ),
                         cms.untracked.PSet(
                             file = cms.untracked.FileInPath('cp3_llbb/Framework/data/Efficiencies/Muon_DoubleMu_IsoMu23leg_Run2016_PTvsETA_Run274094to275000_HWW.json'),
-                            weight = cms.untracked.double(1000)
+                            weight = cms.untracked.double(2916.386)
                         ),
                         cms.untracked.PSet(
                             file = cms.untracked.FileInPath('cp3_llbb/Framework/data/Efficiencies/Muon_DoubleMu_IsoMu23leg_Run2016_PTvsETA_Run275001to275783_HWW.json'),
-                            weight = cms.untracked.double(1000)
+                            weight = cms.untracked.double(2735.916)
                         ),
                         cms.untracked.PSet(
                             file = cms.untracked.FileInPath('cp3_llbb/Framework/data/Efficiencies/Muon_DoubleMu_IsoMu23leg_Run2016_PTvsETA_Run275784to276500_HWW.json'),
-                            weight = cms.untracked.double(1000)
+                            weight = cms.untracked.double(3426.131)
                         ),
                         cms.untracked.PSet(
                             file = cms.untracked.FileInPath('cp3_llbb/Framework/data/Efficiencies/Muon_DoubleMu_IsoMu23leg_Run2016_PTvsETA_Run276501to276811_HWW.json'),
-                            weight = cms.untracked.double(1000)
+                            weight = cms.untracked.double(3191.207)
                         ),
                     ),
             )
