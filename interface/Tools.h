@@ -86,30 +86,30 @@ void HHAnalyzer::fillTriggerEfficiencies(const Lepton & lep1, const Lepton & lep
     Parameters p_hlt_lep2 = {{BinningVariable::Eta, lep2.p4.Eta()}, {BinningVariable::Pt, lep2.p4.Pt()}};
 
     if (lep1.isMu && lep2.isMu) {
-        eff_lep1_leg1 = m_hlt_efficiencies.at("IsoMu17leg").get(p_hlt_lep1)[0];
-        eff_lep1_leg2 = m_hlt_efficiencies.at("IsoMu8orIsoTkMu8leg").get(p_hlt_lep1)[0];
-        //eff_lep1_tkleg2 = m_hlt_efficiencies.at("DoubleIsoMu17Mu8_TkMu8leg").get(p_hlt_lep1)[0];
-        eff_lep2_leg1 = m_hlt_efficiencies.at("IsoMu17leg").get(p_hlt_lep2)[0];
-        eff_lep2_leg2 = m_hlt_efficiencies.at("IsoMu8orIsoTkMu8leg").get(p_hlt_lep2)[0];
-        //eff_lep2_tkleg2 = m_hlt_efficiencies.at("DoubleIsoMu17Mu8_TkMu8leg").get(p_hlt_lep2)[0];
+        eff_lep1_leg1 = m_hlt_efficiencies.at("IsoMu17leg")->get(p_hlt_lep1)[0];
+        eff_lep1_leg2 = m_hlt_efficiencies.at("IsoMu8orIsoTkMu8leg")->get(p_hlt_lep1)[0];
+        //eff_lep1_tkleg2 = m_hlt_efficiencies.at("DoubleIsoMu17Mu8_TkMu8leg")->get(p_hlt_lep1)[0];
+        eff_lep2_leg1 = m_hlt_efficiencies.at("IsoMu17leg")->get(p_hlt_lep2)[0];
+        eff_lep2_leg2 = m_hlt_efficiencies.at("IsoMu8orIsoTkMu8leg")->get(p_hlt_lep2)[0];
+        //eff_lep2_tkleg2 = m_hlt_efficiencies.at("DoubleIsoMu17Mu8_TkMu8leg")->get(p_hlt_lep2)[0];
     }
     else if (lep1.isMu && lep2.isEl) {
-        eff_lep1_leg1 = m_hlt_efficiencies.at("IsoMu23leg").get(p_hlt_lep1)[0];
-        eff_lep1_leg2 = m_hlt_efficiencies.at("IsoMu8leg").get(p_hlt_lep1)[0];
-        eff_lep2_leg1 = m_hlt_efficiencies.at("EleMuHighPtleg").get(p_hlt_lep2)[0];
-        eff_lep2_leg2 = m_hlt_efficiencies.at("MuEleLowPtleg").get(p_hlt_lep2)[0];
+        eff_lep1_leg1 = m_hlt_efficiencies.at("IsoMu23leg")->get(p_hlt_lep1)[0];
+        eff_lep1_leg2 = m_hlt_efficiencies.at("IsoMu8leg")->get(p_hlt_lep1)[0];
+        eff_lep2_leg1 = m_hlt_efficiencies.at("EleMuHighPtleg")->get(p_hlt_lep2)[0];
+        eff_lep2_leg2 = m_hlt_efficiencies.at("MuEleLowPtleg")->get(p_hlt_lep2)[0];
     }
     else if (lep1.isEl && lep2.isMu) {
-        eff_lep1_leg1 = m_hlt_efficiencies.at("EleMuHighPtleg").get(p_hlt_lep1)[0];
-        eff_lep1_leg2 = m_hlt_efficiencies.at("MuEleLowPtleg").get(p_hlt_lep1)[0];
-        eff_lep2_leg1 = m_hlt_efficiencies.at("IsoMu23leg").get(p_hlt_lep2)[0];
-        eff_lep2_leg2 = m_hlt_efficiencies.at("IsoMu8leg").get(p_hlt_lep2)[0];
+        eff_lep1_leg1 = m_hlt_efficiencies.at("EleMuHighPtleg")->get(p_hlt_lep1)[0];
+        eff_lep1_leg2 = m_hlt_efficiencies.at("MuEleLowPtleg")->get(p_hlt_lep1)[0];
+        eff_lep2_leg1 = m_hlt_efficiencies.at("IsoMu23leg")->get(p_hlt_lep2)[0];
+        eff_lep2_leg2 = m_hlt_efficiencies.at("IsoMu8leg")->get(p_hlt_lep2)[0];
     }
     else if (lep1.isEl && lep2.isEl){
-        eff_lep1_leg1 = m_hlt_efficiencies.at("DoubleEleHighPtleg").get(p_hlt_lep1)[0];
-        eff_lep1_leg2 = m_hlt_efficiencies.at("DoubleEleLowPtleg").get(p_hlt_lep1)[0];
-        eff_lep2_leg1 = m_hlt_efficiencies.at("DoubleEleHighPtleg").get(p_hlt_lep2)[0];
-        eff_lep2_leg2 = m_hlt_efficiencies.at("DoubleEleLowPtleg").get(p_hlt_lep2)[0];
+        eff_lep1_leg1 = m_hlt_efficiencies.at("DoubleEleHighPtleg")->get(p_hlt_lep1)[0];
+        eff_lep1_leg2 = m_hlt_efficiencies.at("DoubleEleLowPtleg")->get(p_hlt_lep1)[0];
+        eff_lep2_leg1 = m_hlt_efficiencies.at("DoubleEleHighPtleg")->get(p_hlt_lep2)[0];
+        eff_lep2_leg2 = m_hlt_efficiencies.at("DoubleEleLowPtleg")->get(p_hlt_lep2)[0];
     }
     else 
         std::cout << "We have something else then el or mu !!" << std::endl;
@@ -122,30 +122,30 @@ void HHAnalyzer::fillTriggerEfficiencies(const Lepton & lep1, const Lepton & lep
     float error_eff_lep2_tkleg2_up = 0.;
 
     if (lep1.isMu && lep2.isMu) {
-        error_eff_lep1_leg1_up = m_hlt_efficiencies.at("IsoMu17leg").get(p_hlt_lep1)[2];
-        error_eff_lep1_leg2_up = m_hlt_efficiencies.at("IsoMu8orIsoTkMu8leg").get(p_hlt_lep1)[2];
-        //error_eff_lep1_tkleg2_up = m_hlt_efficiencies.at("DoubleIsoMu17Mu8_TkMu8leg").get(p_hlt_lep1)[2];
-        error_eff_lep2_leg1_up = m_hlt_efficiencies.at("IsoMu17leg").get(p_hlt_lep2)[2];
-        error_eff_lep2_leg2_up = m_hlt_efficiencies.at("IsoMu8orIsoTkMu8leg").get(p_hlt_lep2)[2];
-        //error_eff_lep2_tkleg2_up = m_hlt_efficiencies.at("DoubleIsoMu17Mu8_TkMu8leg").get(p_hlt_lep2)[2];
+        error_eff_lep1_leg1_up = m_hlt_efficiencies.at("IsoMu17leg")->get(p_hlt_lep1)[2];
+        error_eff_lep1_leg2_up = m_hlt_efficiencies.at("IsoMu8orIsoTkMu8leg")->get(p_hlt_lep1)[2];
+        //error_eff_lep1_tkleg2_up = m_hlt_efficiencies.at("DoubleIsoMu17Mu8_TkMu8leg")->get(p_hlt_lep1)[2];
+        error_eff_lep2_leg1_up = m_hlt_efficiencies.at("IsoMu17leg")->get(p_hlt_lep2)[2];
+        error_eff_lep2_leg2_up = m_hlt_efficiencies.at("IsoMu8orIsoTkMu8leg")->get(p_hlt_lep2)[2];
+        //error_eff_lep2_tkleg2_up = m_hlt_efficiencies.at("DoubleIsoMu17Mu8_TkMu8leg")->get(p_hlt_lep2)[2];
     }
     else if (lep1.isMu && lep2.isEl) {
-        error_eff_lep1_leg1_up = m_hlt_efficiencies.at("IsoMu23leg").get(p_hlt_lep1)[2];
-        error_eff_lep1_leg2_up = m_hlt_efficiencies.at("IsoMu8leg").get(p_hlt_lep1)[2];
-        error_eff_lep2_leg1_up = m_hlt_efficiencies.at("EleMuHighPtleg").get(p_hlt_lep2)[2];
-        error_eff_lep2_leg2_up = m_hlt_efficiencies.at("MuEleLowPtleg").get(p_hlt_lep2)[2];
+        error_eff_lep1_leg1_up = m_hlt_efficiencies.at("IsoMu23leg")->get(p_hlt_lep1)[2];
+        error_eff_lep1_leg2_up = m_hlt_efficiencies.at("IsoMu8leg")->get(p_hlt_lep1)[2];
+        error_eff_lep2_leg1_up = m_hlt_efficiencies.at("EleMuHighPtleg")->get(p_hlt_lep2)[2];
+        error_eff_lep2_leg2_up = m_hlt_efficiencies.at("MuEleLowPtleg")->get(p_hlt_lep2)[2];
     }
     else if (lep1.isEl && lep2.isMu) {
-        error_eff_lep1_leg1_up = m_hlt_efficiencies.at("EleMuHighPtleg").get(p_hlt_lep1)[2];
-        error_eff_lep1_leg2_up = m_hlt_efficiencies.at("MuEleLowPtleg").get(p_hlt_lep1)[2];
-        error_eff_lep2_leg1_up = m_hlt_efficiencies.at("IsoMu23leg").get(p_hlt_lep2)[2];
-        error_eff_lep2_leg2_up = m_hlt_efficiencies.at("IsoMu8leg").get(p_hlt_lep2)[2];
+        error_eff_lep1_leg1_up = m_hlt_efficiencies.at("EleMuHighPtleg")->get(p_hlt_lep1)[2];
+        error_eff_lep1_leg2_up = m_hlt_efficiencies.at("MuEleLowPtleg")->get(p_hlt_lep1)[2];
+        error_eff_lep2_leg1_up = m_hlt_efficiencies.at("IsoMu23leg")->get(p_hlt_lep2)[2];
+        error_eff_lep2_leg2_up = m_hlt_efficiencies.at("IsoMu8leg")->get(p_hlt_lep2)[2];
     }
     else if (lep1.isEl && lep2.isEl){
-        error_eff_lep1_leg1_up = m_hlt_efficiencies.at("DoubleEleHighPtleg").get(p_hlt_lep1)[2];
-        error_eff_lep1_leg2_up = m_hlt_efficiencies.at("DoubleEleLowPtleg").get(p_hlt_lep1)[2];
-        error_eff_lep2_leg1_up = m_hlt_efficiencies.at("DoubleEleHighPtleg").get(p_hlt_lep2)[2];
-        error_eff_lep2_leg2_up = m_hlt_efficiencies.at("DoubleEleLowPtleg").get(p_hlt_lep2)[2];
+        error_eff_lep1_leg1_up = m_hlt_efficiencies.at("DoubleEleHighPtleg")->get(p_hlt_lep1)[2];
+        error_eff_lep1_leg2_up = m_hlt_efficiencies.at("DoubleEleLowPtleg")->get(p_hlt_lep1)[2];
+        error_eff_lep2_leg1_up = m_hlt_efficiencies.at("DoubleEleHighPtleg")->get(p_hlt_lep2)[2];
+        error_eff_lep2_leg2_up = m_hlt_efficiencies.at("DoubleEleLowPtleg")->get(p_hlt_lep2)[2];
     }
 
     float error_eff_lep1_leg1_down = 0.;
@@ -156,30 +156,30 @@ void HHAnalyzer::fillTriggerEfficiencies(const Lepton & lep1, const Lepton & lep
     float error_eff_lep2_tkleg2_down = 0.;
 
     if (lep1.isMu && lep2.isMu) {
-        error_eff_lep1_leg1_down = m_hlt_efficiencies.at("IsoMu17leg").get(p_hlt_lep1)[1];
-        error_eff_lep1_leg2_down = m_hlt_efficiencies.at("IsoMu8orIsoTkMu8leg").get(p_hlt_lep1)[1];
-        //error_eff_lep1_tkleg2_down = m_hlt_efficiencies.at("DoubleIsoMu17Mu8_TkMu8leg").get(p_hlt_lep1)[1];
-        error_eff_lep2_leg1_down = m_hlt_efficiencies.at("IsoMu17leg").get(p_hlt_lep2)[1];
-        error_eff_lep2_leg2_down = m_hlt_efficiencies.at("IsoMu8orIsoTkMu8leg").get(p_hlt_lep2)[1];
-        //error_eff_lep2_tkleg2_down = m_hlt_efficiencies.at("DoubleIsoMu17Mu8_TkMu8leg").get(p_hlt_lep2)[1];
+        error_eff_lep1_leg1_down = m_hlt_efficiencies.at("IsoMu17leg")->get(p_hlt_lep1)[1];
+        error_eff_lep1_leg2_down = m_hlt_efficiencies.at("IsoMu8orIsoTkMu8leg")->get(p_hlt_lep1)[1];
+        //error_eff_lep1_tkleg2_down = m_hlt_efficiencies.at("DoubleIsoMu17Mu8_TkMu8leg")->get(p_hlt_lep1)[1];
+        error_eff_lep2_leg1_down = m_hlt_efficiencies.at("IsoMu17leg")->get(p_hlt_lep2)[1];
+        error_eff_lep2_leg2_down = m_hlt_efficiencies.at("IsoMu8orIsoTkMu8leg")->get(p_hlt_lep2)[1];
+        //error_eff_lep2_tkleg2_down = m_hlt_efficiencies.at("DoubleIsoMu17Mu8_TkMu8leg")->get(p_hlt_lep2)[1];
     }
     else if (lep1.isMu && lep2.isEl) {
-        error_eff_lep1_leg1_down = m_hlt_efficiencies.at("IsoMu23leg").get(p_hlt_lep1)[1];
-        error_eff_lep1_leg2_down = m_hlt_efficiencies.at("IsoMu8leg").get(p_hlt_lep1)[1];
-        error_eff_lep2_leg1_down = m_hlt_efficiencies.at("EleMuHighPtleg").get(p_hlt_lep2)[1];
-        error_eff_lep2_leg2_down = m_hlt_efficiencies.at("MuEleLowPtleg").get(p_hlt_lep2)[1];
+        error_eff_lep1_leg1_down = m_hlt_efficiencies.at("IsoMu23leg")->get(p_hlt_lep1)[1];
+        error_eff_lep1_leg2_down = m_hlt_efficiencies.at("IsoMu8leg")->get(p_hlt_lep1)[1];
+        error_eff_lep2_leg1_down = m_hlt_efficiencies.at("EleMuHighPtleg")->get(p_hlt_lep2)[1];
+        error_eff_lep2_leg2_down = m_hlt_efficiencies.at("MuEleLowPtleg")->get(p_hlt_lep2)[1];
     }
     else if (lep1.isEl && lep2.isMu) {
-        error_eff_lep1_leg1_down = m_hlt_efficiencies.at("EleMuHighPtleg").get(p_hlt_lep1)[1];
-        error_eff_lep1_leg2_down = m_hlt_efficiencies.at("MuEleLowPtleg").get(p_hlt_lep1)[1];
-        error_eff_lep2_leg1_down = m_hlt_efficiencies.at("IsoMu23leg").get(p_hlt_lep2)[1];
-        error_eff_lep2_leg2_down = m_hlt_efficiencies.at("IsoMu8leg").get(p_hlt_lep2)[1];
+        error_eff_lep1_leg1_down = m_hlt_efficiencies.at("EleMuHighPtleg")->get(p_hlt_lep1)[1];
+        error_eff_lep1_leg2_down = m_hlt_efficiencies.at("MuEleLowPtleg")->get(p_hlt_lep1)[1];
+        error_eff_lep2_leg1_down = m_hlt_efficiencies.at("IsoMu23leg")->get(p_hlt_lep2)[1];
+        error_eff_lep2_leg2_down = m_hlt_efficiencies.at("IsoMu8leg")->get(p_hlt_lep2)[1];
     }
     else if (lep1.isEl && lep2.isEl){
-        error_eff_lep1_leg1_down = m_hlt_efficiencies.at("DoubleEleHighPtleg").get(p_hlt_lep1)[1];
-        error_eff_lep1_leg2_down = m_hlt_efficiencies.at("DoubleEleLowPtleg").get(p_hlt_lep1)[1];
-        error_eff_lep2_leg1_down = m_hlt_efficiencies.at("DoubleEleHighPtleg").get(p_hlt_lep2)[1];
-        error_eff_lep2_leg2_down = m_hlt_efficiencies.at("DoubleEleLowPtleg").get(p_hlt_lep2)[1];
+        error_eff_lep1_leg1_down = m_hlt_efficiencies.at("DoubleEleHighPtleg")->get(p_hlt_lep1)[1];
+        error_eff_lep1_leg2_down = m_hlt_efficiencies.at("DoubleEleLowPtleg")->get(p_hlt_lep1)[1];
+        error_eff_lep2_leg1_down = m_hlt_efficiencies.at("DoubleEleHighPtleg")->get(p_hlt_lep2)[1];
+        error_eff_lep2_leg2_down = m_hlt_efficiencies.at("DoubleEleLowPtleg")->get(p_hlt_lep2)[1];
     }
 
 

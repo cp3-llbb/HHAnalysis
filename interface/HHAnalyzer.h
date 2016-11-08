@@ -4,8 +4,8 @@
 #include <cp3_llbb/Framework/interface/Analyzer.h>
 #include <cp3_llbb/Framework/interface/Category.h>
 #include <cp3_llbb/Framework/interface/BinnedValuesJSONParser.h>
+#include <cp3_llbb/Framework/interface/WeightedBinnedValues.h>
 
-#include <cp3_llbb/HHAnalysis/interface/WeightedEfficiency.h>
 #include <cp3_llbb/HHAnalysis/interface/Types.h>
 #include <cp3_llbb/HHAnalysis/interface/lester_mt2_bisect.h>
 
@@ -58,8 +58,16 @@ class HHAnalyzer: public Framework::Analyzer {
             const edm::ParameterSet& hlt_efficiencies = config.getUntrackedParameter<edm::ParameterSet>("hlt_efficiencies");
             std::vector<std::string> hlt_efficiencies_name = hlt_efficiencies.getParameterNames();
             for (const std::string& hlt_efficiency: hlt_efficiencies_name) {
-                const auto& parts = hlt_efficiencies.getUntrackedParameter<std::vector<edm::ParameterSet>>(hlt_efficiency);
-                m_hlt_efficiencies.emplace(hlt_efficiency, WeightedEfficiency(parts));
+                std::cout << "    Registering new HLT efficiency: " << hlt_efficiency;
+                if (hlt_efficiencies.existsAs<edm::FileInPath>(hlt_efficiency, false)) {
+                    BinnedValuesJSONParser parser(hlt_efficiencies.getUntrackedParameter<edm::FileInPath>(hlt_efficiency).fullPath());
+                    m_hlt_efficiencies.emplace(hlt_efficiency, std::unique_ptr<BinnedValues>(new BinnedValues(std::move(parser.get_values()))));
+                    std::cout << " -> non-weighted. " << std::endl;
+                } else {
+                    const auto& parts = hlt_efficiencies.getUntrackedParameter<std::vector<edm::ParameterSet>>(hlt_efficiency);
+                    m_hlt_efficiencies.emplace(hlt_efficiency, std::unique_ptr<BinnedValues>(new WeightedBinnedValues(parts)));
+                    std::cout << " -> weighted. " << std::endl;
+                }
             }
 
             asymm_mt2_lester_bisect::disableCopyrightMessage();
@@ -225,7 +233,7 @@ class HHAnalyzer: public Framework::Analyzer {
         std::string m_electron_medium_wp_name;
         std::string m_electron_tight_wp_name;
         bool m_applyBJetRegression;
-        std::unordered_map<std::string, WeightedEfficiency> m_hlt_efficiencies;
+        std::unordered_map<std::string, std::unique_ptr<BinnedValues>> m_hlt_efficiencies;
 
 };
 
