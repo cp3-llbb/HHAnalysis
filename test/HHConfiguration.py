@@ -94,11 +94,13 @@ framework.getProducer('hlt').parameters.triggers = cms.untracked.FileInPath('cp3
 # framework.getProducer('jets').parameters.cut = cms.untracked.string("pt > 20")
 #framework.getProducer('jets').parameters.computeRegression = cms.untracked.bool(True)
 
-framework.redoJEC()
+if runOnData:
+    framework.redoJEC()
 
 framework.applyMuonCorrection('rochester')
 
 framework.applyElectronRegression()
+framework.applyElectronSmearing()
 
 if not runOnData:
     framework.smearJets(resolutionFile='cp3_llbb/Framework/data/Spring16_25nsV10_MC_PtResolution_AK4PFchs.txt', scaleFactorFile='cp3_llbb/Framework/data/Spring16_25nsV10_MC_SF_AK4PFchs.txt')
