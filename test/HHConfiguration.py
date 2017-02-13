@@ -96,6 +96,10 @@ framework.getProducer('hlt').parameters.triggers = cms.untracked.FileInPath('cp3
 
 framework.redoJEC()
 
+framework.applyMuonCorrection('rochester')
+
+framework.applyElectronRegression()
+
 if not runOnData:
     framework.smearJets(resolutionFile='cp3_llbb/Framework/data/Spring16_25nsV10_MC_PtResolution_AK4PFchs.txt', scaleFactorFile='cp3_llbb/Framework/data/Spring16_25nsV10_MC_SF_AK4PFchs.txt')
     framework.doSystematics(['jec', 'jer'], jec={'uncertaintiesFile': 'cp3_llbb/HHAnalysis/data/Summer16_23Sep2016V4_MC_UncertaintySources_AK4PFchs.txt', 'splitBySources': True})
