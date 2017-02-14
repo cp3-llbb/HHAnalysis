@@ -108,13 +108,13 @@ if not runOnData:
 
 process = framework.create()
 
-process.framework.treeFlushSize = cms.untracked.uint64(5 * 1024 * 1024)
-
-if runOnData : 
+if runOnData: 
     process.source.fileNames = cms.untracked.vstring(
             '/store/data/Run2016F/DoubleMuon/MINIAOD/23Sep2016-v1/50000/040EDEBA-0490-E611-A424-008CFA110C68.root'
         )
-else : 
+else: 
+    process.framework.treeFlushSize = cms.untracked.uint64(5 * 1024 * 1024)
+
     process.source.fileNames = cms.untracked.vstring(
             # Signal
             '/store/mc/RunIISummer16MiniAODv2/GluGluToHHTo2B2VTo2L2Nu_node_SM_13TeV-madgraph-v2/MINIAODSIM/PUMoriond17_80X_mcRun2_asymptotic_2016_TrancheIV_v6-v1/60000/2E1015E2-71D9-E611-911E-02163E019E19.root'
