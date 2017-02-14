@@ -17,8 +17,6 @@ if runOnData :
 
 framework = Framework.Framework(runOnData, eras.Run2_25ns, globalTag=globalTag_, processName=processName_)
 
-process.framework.treeFlushSize = cms.untracked.uint64(5 * 1024 * 1024)
-
 framework.addAnalyzer('hh_analyzer', cms.PSet(
         type = cms.string('hh_analyzer'),
         prefix = cms.string('hh_'),
@@ -109,6 +107,8 @@ if not runOnData:
     framework.doSystematics(['jec', 'jer'], jec={'uncertaintiesFile': 'cp3_llbb/HHAnalysis/data/Summer16_23Sep2016V4_MC_UncertaintySources_AK4PFchs.txt', 'splitBySources': True})
 
 process = framework.create()
+
+process.framework.treeFlushSize = cms.untracked.uint64(5 * 1024 * 1024)
 
 if runOnData : 
     process.source.fileNames = cms.untracked.vstring(
