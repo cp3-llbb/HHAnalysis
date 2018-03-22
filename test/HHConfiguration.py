@@ -9,13 +9,13 @@ from cp3_llbb.Framework.CmdLine import CmdLine
 options = CmdLine()
 runOnData = options.runOnData == 1
 
-globalTag_ = '80X_mcRun2_asymptotic_2016_TrancheIV_v8'
+globalTag_ = '93X_upgrade2023_realistic_v3'
 processName_ = 'PAT'
 if runOnData :
     globalTag_ = '80X_dataRun2_2016SeptRepro_v7'
     processName_ = 'RECO'
-
-framework = Framework.Framework(runOnData, eras.Run2_25ns, globalTag=globalTag_, processName=processName_)
+options = CmdLine(defaults=dict(runOnData=0, era="25ns", globalTag='93X_upgrade2023_realistic_v3'))
+framework = Framework.Framework(options)
 
 framework.addAnalyzer('hh_analyzer', cms.PSet(
         type = cms.string('hh_analyzer'),
@@ -47,8 +47,8 @@ framework.addAnalyzer('hh_analyzer', cms.PSet(
             subleadingMuonPtCut = cms.untracked.double(10),
 
             electronEtaCut = cms.untracked.double(2.5),
-            muonLooseIsoCut = cms.untracked.double(.25), # https://twiki.cern.ch/twiki/bin/view/CMS/TopMUO 
-            muonTightIsoCut = cms.untracked.double(.15), # https://twiki.cern.ch/twiki/bin/view/CMS/TopMUO 
+            muonLooseIsoCut = cms.untracked.double(.25), # https://twiki.cern.ch/twiki/bin/view/CMS/TopMUO
+            muonTightIsoCut = cms.untracked.double(.15), # https://twiki.cern.ch/twiki/bin/view/CMS/TopMUO
             muonEtaCut = cms.untracked.double(2.4),
             electrons_loose_wp_name = cms.untracked.string("cutBasedElectronID-Summer16-80X-V1-loose"),
             electrons_medium_wp_name = cms.untracked.string("cutBasedElectronID-Summer16-80X-V1-medium"),
@@ -99,35 +99,31 @@ framework.getProducer('electrons').parameters.scale_factors.id_mediumplushltsafe
 if runOnData:
     framework.redoJEC()
 
-framework.applyMuonCorrection('rochester')
+#framework.applyMuonCorrection('rochester')
 
-framework.applyElectronRegression()
-framework.applyElectronSmearing()
+#framework.applyElectronRegression()
+#framework.applyElectronSmearing()
 
-if not runOnData:
-    framework.smearJets(resolutionFile='cp3_llbb/Framework/data/Spring16_25nsV10_MC_PtResolution_AK4PFchs.txt', scaleFactorFile='cp3_llbb/Framework/data/Spring16_25nsV10_MC_SF_AK4PFchs.txt')
-    framework.doSystematics(['jec', 'jer'], jec={'uncertaintiesFile': 'cp3_llbb/HHAnalysis/data/Summer16_23Sep2016V4_MC_UncertaintySources_AK4PFchs.txt', 'splitBySources': True})
+#if not runOnData:
+#    framework.smearJets(resolutionFile='cp3_llbb/Framework/data/Spring16_25nsV10_MC_PtResolution_AK4PFchs.txt', scaleFactorFile='cp3_llbb/Framework/data/Spring16_25nsV10_MC_SF_AK4PFchs.txt')
+#    framework.doSystematics(['jec', 'jer'], jec={'uncertaintiesFile': 'cp3_llbb/HHAnalysis/data/Summer16_23Sep2016V4_MC_UncertaintySources_AK4PFchs.txt', 'splitBySources': True})
 
 process = framework.create()
 
-if runOnData: 
+if runOnData:
     process.source.fileNames = cms.untracked.vstring(
             '/store/data/Run2016F/DoubleMuon/MINIAOD/23Sep2016-v1/50000/040EDEBA-0490-E611-A424-008CFA110C68.root'
         )
-else: 
+else:
     process.framework.treeFlushSize = cms.untracked.uint64(5 * 1024 * 1024)
 
     process.source.fileNames = cms.untracked.vstring(
-            # Signal
-            '/store/mc/RunIISummer16MiniAODv2/GluGluToHHTo2B2VTo2L2Nu_node_SM_13TeV-madgraph-v2/MINIAODSIM/PUMoriond17_80X_mcRun2_asymptotic_2016_TrancheIV_v6-v1/60000/2E1015E2-71D9-E611-911E-02163E019E19.root'
-
-            # TT
-            # '/store/mc/RunIISummer16MiniAODv2/TTTo2L2Nu_TuneCUETP8M2_ttHtranche3_13TeV-powheg-pythia8/MINIAODSIM/PUMoriond17_80X_mcRun2_asymptotic_2016_TrancheIV_v6-v1/120000/00ED79D3-CFC1-E611-B748-3417EBE64483.root'
-
-            # DY
-            # '/store/mc/RunIISummer16MiniAODv2/DYToLL_2J_13TeV-amcatnloFXFX-pythia8/MINIAODSIM/PUMoriond17_80X_mcRun2_asymptotic_2016_TrancheIV_v6-v2/100000/00CEFB4F-C1D2-E611-BBF4-7845C4FC3C11.root<Paste>'
+        'file:/home/ucl/cp3/delcourt/scratch/phase2HH/data_TMP/SAMPLE_MINIAOD.root'
+        )
+    process.source.secondaryFileNames = cms.untracked.vstring(
+        'file:/home/ucl/cp3/delcourt/scratch/phase2HH/data_TMP/SAMPLE_GENSIMRECO.root'
         )
 
-#process.MessageLogger.cerr.FwkReport.reportEvery = 1
+process.MessageLogger.cerr.FwkReport.reportEvery = 20
 #process.source.skipEvents = cms.untracked.uint32(10)
-process.maxEvents = cms.untracked.PSet(input = cms.untracked.int32(1000))
+process.maxEvents = cms.untracked.PSet(input = cms.untracked.int32(100))
