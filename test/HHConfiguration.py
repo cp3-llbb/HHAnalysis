@@ -58,11 +58,11 @@ framework.addAnalyzer('hh_analyzer', cms.PSet(
             jetPtCut = cms.untracked.double(20),
 
             # BTAG INFO
-            # Working points from https://twiki.cern.ch/twiki/bin/viewauth/CMS/BtagRecommendation80XReReco
+            # Working points from https://twiki.cern.ch/twiki/bin/view/CMS/Phase2HGCRecipes#B_tagging
             discr_name =  cms.untracked.string("pfCombinedMVAV2BJetTags"),
-            discr_cut_loose =  cms.untracked.double(-0.5884),
-            discr_cut_medium =  cms.untracked.double(0.4432),
-            discr_cut_tight =  cms.untracked.double(0.9432),
+            discr_cut_loose =  cms.untracked.double(-0.468),
+            discr_cut_medium =  cms.untracked.double(0.602),
+            discr_cut_tight =  cms.untracked.double(0.978),
 
             minDR_l_j_Cut = cms.untracked.double(0.3),
             hltDRCut = cms.untracked.double(0.1),
@@ -126,4 +126,4 @@ else:
 
 process.MessageLogger.cerr.FwkReport.reportEvery = 20
 #process.source.skipEvents = cms.untracked.uint32(10)
-process.maxEvents = cms.untracked.PSet(input = cms.untracked.int32(100))
+process.maxEvents = cms.untracked.PSet(input = cms.untracked.int32(-1))
