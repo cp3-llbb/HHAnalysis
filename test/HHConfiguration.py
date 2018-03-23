@@ -99,6 +99,10 @@ framework.getProducer('electrons').parameters.scale_factors.id_mediumplushltsafe
 if runOnData:
     framework.redoJEC()
 
+#Redo JEC
+
+framework.useJECDatabase("PhaseIIFall17_V3_MC.db")
+
 #framework.applyMuonCorrection('rochester')
 
 #framework.applyElectronRegression()
