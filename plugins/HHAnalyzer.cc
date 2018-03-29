@@ -340,8 +340,8 @@ void HHAnalyzer::analyze(const edm::Event& event, const edm::EventSetup&, const 
             && fabs(allelectrons.p4[ielectron].Eta()) < m_electronEtaCut) 
         {
             // some selection
-            // Ask for medium ID
-            if (!allelectrons.ids[ielectron][m_electron_medium_wp_name])
+            // Ask for loose ID
+            if (!allelectrons.phase2_mva_id_loose[ielectron])
                 continue;
 
             HH::Lepton ele;
